@@ -1,14 +1,13 @@
 from abc import ABCMeta
 from abc import abstractmethod
 
-class Exchange(metaclass=ABCMeta):
-
-    def __init__(self):
-        pass
+class AbstractExchange(metaclass=ABCMeta):
 
     @abstractmethod
     def get_amount_invested(self):
-        return 0
+        pass
 
-if __name__ == '__main__':
-    print("Hello World")
+class DummyExchange(AbstractExchange):
+
+    def get_amount_invested(self):
+        return 0
