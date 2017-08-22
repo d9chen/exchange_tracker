@@ -6,7 +6,7 @@ class Exchange(metaclass=ABCMeta):
     def __init__(self):
         pass
 
-    @abstracmethod
+    @abstractmethod
     def get_amount_invested(self):
         return 0
 
