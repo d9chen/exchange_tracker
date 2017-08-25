@@ -1,4 +1,9 @@
 import os
+from collections import namedtuple
+
+import yaml
+
+from exchange.constants import ExchangeConstant
 
 
 class InvalidDirectoryError(Exception):
@@ -7,6 +12,17 @@ class InvalidDirectoryError(Exception):
 
 class FileNotFoundError(Exception):
     pass
+
+
+class InvalidExchangeError(Exception):
+    pass
+
+
+class MissingExchangeInfoError(Exception):
+    pass
+
+
+APICred = namedtuple('APICreds', ['key', 'secret'])
 
 
 def search_for_exchanges_yaml(directory, target=None):
@@ -43,3 +59,41 @@ def search_for_exchanges_yaml(directory, target=None):
             raise FileNotFoundError
 
     return potential_file_path
+
+
+def get_exchange_api_creds(exchange, exchange_yaml_path=None):
+    """Returns the api key and secret associated with a given exchange
+
+    Args:
+        exchange(ExchangeConstant): Exchange to look up creds for.
+        exchange_yaml_path(str): Location of a yaml file containing exchange API
+            creds.
+    Returns:
+        APICred: populated with key and secret.
+
+    Raises:
+        MissingExchangeInfoError: If exchanges.yaml does not have info for
+            the specified `exchange`.
+        InvalidExchangeError: if `exchange` is not a member of ExchangeConstant
+    """
+    try:
+        ExchangeConstant(exchange)
+    except ValueError:
+        raise InvalidExchangeError
+
+    exchange_yaml_path = exchange_yaml_path or search_for_exchanges_yaml(
+        os.path.dirname(os.path.realpath(__file__))
+    )
+
+    with open(exchange_yaml_path, 'r') as exchange_yaml_file:
+        exchanges_dict = yaml.load(exchange_yaml_file)
+
+    if not exchanges_dict:
+        raise MissingExchangeInfoError
+    elif exchange.value not in exchanges_dict:
+        raise MissingExchangeInfoError
+
+    return APICred(
+        exchanges_dict[exchange.value]['api_key'],
+        exchanges_dict[exchange.value]['api_secret']
+    )
