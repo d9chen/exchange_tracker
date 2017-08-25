@@ -1,11 +1,13 @@
 import os
-import yaml
+
 
 class InvalidDirectoryError(Exception):
     pass
 
+
 class FileNotFoundError(Exception):
     pass
+
 
 def search_for_exchanges_yaml(directory, target=None):
     """Naively looks 'upwards' for 'target'. Starts searching from
@@ -39,5 +41,3 @@ def search_for_exchanges_yaml(directory, target=None):
         if directory == os.path.abspath(os.path.join(directory, "..")):
             # Reached, and searched root dir. Can't locate target
             raise FileNotFoundError
-
-

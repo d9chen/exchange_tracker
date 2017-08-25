@@ -3,5 +3,6 @@
     hooks:
     -   id: trailing-whitespace
     -   id: flake8
+        args: ['--ignore=E501']
     -   id: requirements-txt-fixer
     -   id: autopep8-wrapper

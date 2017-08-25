@@ -29,5 +29,4 @@ class BittrexExchange(AbstractExchange):
         return self.EXCHANGE_URI.format(version=self.version, method=method)
 
     def _load_api_key_and_secret(self):
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-
+        pass
