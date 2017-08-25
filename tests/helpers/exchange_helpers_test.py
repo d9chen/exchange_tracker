@@ -1,8 +1,10 @@
-import pytest
 import random
 import string
-from helpers.exchange_helpers import FileNotFoundError
+
+import pytest
+
 from helpers import exchange_helpers
+from helpers.exchange_helpers import FileNotFoundError
 
 
 def generate_random_string(n=8):

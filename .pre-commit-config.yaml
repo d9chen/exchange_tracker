@@ -1,8 +1,13 @@
--   repo: git://github.com/pre-commit/pre-commit-hooks
-    sha: v0.9.1
-    hooks:
-    -   id: trailing-whitespace
-    -   id: flake8
-        args: ['--ignore=E501']
-    -   id: requirements-txt-fixer
-    -   id: autopep8-wrapper
+- repo: git://github.com/pre-commit/pre-commit-hooks
+  sha: v0.9.1
+  hooks:
+    - id: trailing-whitespace
+    - id: flake8
+      args: ['--ignore=E501']
+    - id: requirements-txt-fixer
+    - id: autopep8-wrapper
+- repo: git://github.com/asottile/reorder_python_imports
+  sha: v0.3.5
+  hooks:
+    - id: reorder-python-imports
+

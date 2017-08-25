@@ -1,4 +1,5 @@
 import pytest
+
 from exchange.bittrex import BittrexExchange
 
 
