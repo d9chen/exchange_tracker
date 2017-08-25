@@ -41,3 +41,5 @@ def search_for_exchanges_yaml(directory, target=None):
         if directory == os.path.abspath(os.path.join(directory, "..")):
             # Reached, and searched root dir. Can't locate target
             raise FileNotFoundError
+
+    return potential_file_path
