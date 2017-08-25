@@ -1,3 +1,6 @@
+# project specific
+exchanges.yaml
+
 # vim
 *.swp
 
