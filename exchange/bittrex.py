@@ -14,13 +14,14 @@ class BittrexExchange(AbstractExchange):
     available at https://bittrex.com/Home/Api.
     """
 
-    def __init__(self, version='v1.1'):
+    def __init__(self, api_key=None, api_secret=None, version='v1.1'):
         """
         Args:
             version (str): Version of Bittrex API to target calls against.
         """
         self.version = version
-        self._load_api_key_and_secret()
+        if not api_key or not api_secret:
+            self._load_api_key_and_secret()
 
     @property
     def exchange_uri(self):
