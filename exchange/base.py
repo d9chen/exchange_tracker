@@ -31,9 +31,3 @@ class AbstractExchange(metaclass=ABCMeta):
             int: Representing net portfolio value
         """
         pass
-
-
-class DummyExchange(AbstractExchange):
-
-    def get_amount_invested(self):
-        return 0
