@@ -13,5 +13,5 @@ development: virtualenv
 
 .PHONY: test
 test: virtualenv development
-	python -m tests/
+	python -m pytest -s tests
 
