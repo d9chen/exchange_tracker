@@ -9,4 +9,4 @@ def bittrex_exchange():
 
 
 def test_get_amount_invested(bittrex_exchange):
-    assert bittrex_exchange.get_amount_invested() == 0
+    assert bittrex_exchange.get_portfolio_value() == 0

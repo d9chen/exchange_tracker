@@ -1,4 +1,4 @@
-# exchange_tracker
+https://travis-ci.org/d9chen/exchange_tracker.svg?branch=master
 
 Development:
 
