@@ -25,7 +25,7 @@ class MissingExchangeInfoError(Exception):
 APICred = namedtuple('APICreds', ['key', 'secret'])
 
 
-def search_for_exchanges_yaml(directory, target=None):
+def search_for_yaml(directory, target):
     """Naively looks 'upwards' for 'target'. Starts searching from
     directory pointed to by 'directory', if not found there then
     traverses up one directory and looks again there etc..
@@ -34,7 +34,7 @@ def search_for_exchanges_yaml(directory, target=None):
         directory(str): Represents a directory in the current filesystem.
             eg: '/usr/lib'
 
-        target(str): Search target, if not provided then defaults to exchanges.yaml
+        target(str): Search target
 
     Returns:
         str: Representing the absolute path to the 'exchanges.yaml' file
@@ -44,7 +44,6 @@ def search_for_exchanges_yaml(directory, target=None):
             filesystem.
         FileNotFoundError: If 'target' cannot be found.
     """
-    target = target or 'exchanges.yaml'
     if not os.path.isdir(directory):
         raise InvalidDirectoryError
 
@@ -81,12 +80,11 @@ def get_exchange_api_creds(exchange, exchange_yaml_path=None):
     except ValueError:
         raise InvalidExchangeError
 
-    exchange_yaml_path = exchange_yaml_path or search_for_exchanges_yaml(
-        os.path.dirname(os.path.realpath(__file__))
+    exchange_yaml_path = exchange_yaml_path or search_for_yaml(
+        os.path.dirname(os.path.realpath(__file__)),
+        target='exchanges.yaml'
     )
-
-    with open(exchange_yaml_path, 'r') as exchange_yaml_file:
-        exchanges_dict = yaml.load(exchange_yaml_file)
+    exchanges_dict = load_yaml(exchange_yaml_path)
 
     if not exchanges_dict:
         raise MissingExchangeInfoError
@@ -97,3 +95,36 @@ def get_exchange_api_creds(exchange, exchange_yaml_path=None):
         exchanges_dict[exchange.value]['api_key'],
         exchanges_dict[exchange.value]['api_secret']
     )
+
+
+def get_associated_wallets(exchanges_yaml_path=None):
+    """Gets all wallet addresses listed under `wallets` in exchanges.yaml
+
+    Args:
+        exchanges_path(str): Absolute path pointing to the `exchanges.yaml` file.
+            If not provided it'll be autodetected.
+
+    Returns:
+        set: with all associated wallet addresses
+    """
+    exchanges_dict = load_yaml(
+        exchanges_yaml_path or search_for_yaml(
+            os.path.dirname(os.path.realpath(__file__)),
+            target='exchanges.yaml'
+        )
+    )
+
+    return {*exchanges_dict['wallets']}
+
+
+def load_yaml(file_path):
+    """Loads a yaml file at path `file_path`
+
+    Args:
+        file_path(str): path pointing to a yaml file
+
+    Returns:
+        dict: Representing the contents of the YAML file
+    """
+    with open(file_path, 'r') as yaml_file:
+        return yaml.load(yaml_file)

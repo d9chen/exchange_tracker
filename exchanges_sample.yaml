@@ -1,3 +1,7 @@
 bittrex:
   api_key: <api_key>
   api_secret: <api_secret>
+
+wallets:
+  - <wallet_addr1>
+  - <wallet_addr2>
