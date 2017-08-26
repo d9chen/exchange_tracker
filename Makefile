@@ -13,5 +13,5 @@ development: virtualenv
 
 .PHONY: test
 test: virtualenv development
-	python -m pytest -s tests
-
+	coverage run --source=exchange,helpers -m pytest -s tests
+	coverage report

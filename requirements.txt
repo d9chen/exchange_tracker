@@ -1,5 +1,6 @@
 aspy.yaml==0.3.0
 cached-property==1.3.0
+coverage
 identify==1.0.5
 ipython
 nodeenv==1.2.0
